@@ -1,0 +1,54 @@
+/*
+Covid 19 Data Exploration 
+Skills used: Joins, CTE's, Temp Tables, Windows Functions, Aggregate Functions, Creating Views, Converting Data Types
+*/
+
+-- Select all data from "CovidDeaths$" table where "continent" is not null, and sort by the 3rd and 4th columns
+Select *
+From PortfolioProject..CovidDeaths$
+Where continent is not null 
+order by 3,4
+
+-- Select "Location", "date", "total_cases", "new_cases", "total_deaths", and "population" columns from "CovidDeaths$" table where "continent" is not null, and sort by "Location" and "date"
+Select Location, date, total_cases, new_cases, total_deaths, population
+From PortfolioProject..CovidDeaths$
+Where continent is not  null 
+order by 1,2
+
+-- Select "Location", "date", "total_deaths", "total_cases", and calculated "DeathPercentage" column from "CovidDeaths$" table where "location" includes the word "states" and "continent" is not null, and sort by "DeathPercentage" in descending order
+Select Location, date, total_deaths, total_cases, ((total_deaths/total_cases)*100 ) as DeathPercentage
+From PortfolioProject..CovidDeaths$
+Where location like '%states%'
+and continent is not null 
+order by 5 desc
+
+-- Select "Location", "date", "total_cases", "Population", and calculated "PercentPopulationInfected" column from "CovidDeaths$" table where "location" includes the word "states", and sort by "PercentPopulationInfected" in descending order
+Select Location, date, total_cases, Population, (total_cases/population)*100 as PercentPopulationInfected
+From PortfolioProject..CovidDeaths$
+Where location like '%states%'
+order by 5 desc
+
+-- Select "Location", "Population", calculated "HighestInfectionCount" column, and calculated "PercentPopulationInfected" column from "CovidDeaths$" table, group by "Location" and "Population", and sort by "PercentPopulationInfected" in descending order
+Select Location, Population, MAX(total_cases) as HighestInfectionCount, Max((total_cases/population))*100  as PercentPopulationInfected
+From PortfolioProject..CovidDeaths$
+Group by Location, Population
+order by PercentPopulationInfected desc
+
+-- Select the top 1 row from "CovidDeaths$" table, sorted by "PercentPopulationInfected" in descending order, and select "date", "Location", "Population", "total_cases" columns, and a formatted "PercentPopulationInfected" column
+SELECT TOP 1
+    date,
+    Location,
+    Population,
+    total_cases as HighestInfectionCount,
+    format((total_cases/population)*100 ,'N2') as PercentPopulationInfected
+FROM PortfolioProject..CovidDeaths$
+ORDER BY PercentPopulationInfected  desc
+
+-- Select "Location" and calculated "TotalDeathCount" column (casting "Total_deaths" column as int) from "CovidDeaths$" table where "continent" is not null, group by "Location", and sort by "TotalDeathCount" in descending order
+Select Location, max( cast (Total_deaths as int)) as TotalDeathCount
+From PortfolioProject..CovidDeaths$
+Where continent is not null 
+Group by Location
+order by TotalDeathCount desc
+
+-- Select "continent" and calculated "TotalDeathCount" column (casting "Total_deaths" column as int) from "CovidDeaths$" table where "continent" is not null, group by "
