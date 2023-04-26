@@ -1,0 +1,31 @@
+-- create a new table called "amz_store" with columns "asin", "item", "quantity", "price", and "brand", with "asin" being the primary key
+create table amz_store (asin integer primary key, item text, quantity integer, price real, brand text);
+
+-- insert a new row into "amz_store" table with specified values for each column
+insert into amz_store values (835, "water pitcher", 7, 45.99, 'Brita');
+insert into amz_store values (836, 'coffee maker', 5, 120.00, 'Keurig');
+insert into amz_store values (837, 'blender', 3, 75.50, 'Ninja');
+insert into amz_store values (838, 'toaster', 10, 35.00, 'Cuisinart');
+insert into amz_store values (839, 'air fryer', 8, 89.99, 'Instant Pot');
+insert into amz_store values (840, 'electric kettle', 6, 55.00, 'Hamilton Beach');
+insert into amz_store values (841, 'rice cooker', 4, 42.00, 'Cuisinart');
+insert into amz_store values (842, 'slow cooker', 2, 60.00, 'Crock-Pot');
+insert into amz_store values (843, 'vacuum cleaner', 10, 199.99, 'Dyson');
+insert into amz_store values (844, 'hair dryer', 7, 70.00, 'Revlon');
+insert into amz_store values (845, 'electric toothbrush', 15, 49.99, 'Oral-B');
+insert into amz_store values (846, 'smart speaker', 20, 99.99, 'Amazon');
+insert into amz_store values (847, 'wireless headphones', 5, 159.00, 'Apple');
+insert into amz_store values (848, 'smartphone', 3, 999.99, 'Apple');
+insert into amz_store values (849, 'fitness tracker', 8, 129.99, 'Fitbit');
+
+-- calculate the sum of the "quantity" column for all rows in the "amz_store" table
+select sum(quantity) from amz_store;
+
+-- retrieve all columns from the "amz_store" table and sort the result set in ascending order based on the "price" column
+select * from amz_store order by price;
+
+-- retrieve the "brand" and the sum of the "quantity" column for each unique value of the "brand" column in the "amz_store" table, and sort the result set in descending order based on the sum of the "quantity" column
+select brand, sum(quantity) from amz_store group by brand order by sum(quantity);
+
+-- retrieve the "asin", "item", "quantity", "price" columns from the "amz_store" table, and add a calculated column called "total_value" which multiplies the "quantity" and "price" columns together for each row and rounds the result to two decimal places
+SELECT asin, item, quantity, price, ROUND((quantity * price), 2) AS total_value FROM amz_store;
